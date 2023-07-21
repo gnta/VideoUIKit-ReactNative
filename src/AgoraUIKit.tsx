@@ -7,11 +7,8 @@ import RtcConfigure from './RtcConfigure';
 import {
   PropsProvider,
   PropsInterface,
-  Layout,
   AgoraUIKitProps,
 } from './Contexts/PropsContext';
-import LocalControls from './Controls/LocalControls';
-import GridVideo from './Views/GridVideo';
 import PinnedVideo from './Views/PinnedVideo';
 import RtmConfigure from './RtmConfigure';
 import LocalUserContext from './Contexts/LocalUserContext';
@@ -22,21 +19,16 @@ import PopUp from './Controls/Remote/RemoteMutePopUp';
  * @returns Renders the UIKit
  */
 const AgoraUIKitv3: React.FC<PropsInterface> = (props) => {
-  const {layout} = props.rtcProps;
   return (
     <PropsProvider value={props}>
       <View style={[containerStyle, props.styleProps?.UIKitContainer]}>
         <RtcConfigure key={props.rtcProps.channel}>
           <LocalUserContext>
             {props.rtcProps.disableRtm ? (
-              <>
-                {layout === Layout.Grid ? <GridVideo /> : <PinnedVideo />}
-                <LocalControls />
-              </>
+              <PinnedVideo />
             ) : (
               <RtmConfigure>
-                {layout === Layout.Grid ? <GridVideo /> : <PinnedVideo />}
-                <LocalControls />
+                <PinnedVideo />
                 <PopUp />
               </RtmConfigure>
             )}

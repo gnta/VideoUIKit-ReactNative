@@ -8,7 +8,6 @@ import {
   ClientRoleType,
 } from 'react-native-agora';
 import {Platform} from 'react-native';
-import requestCameraAndAudioPermission from '../Utils/permission';
 import {DispatchType} from '../Contexts/RtcContext';
 import PropsContext, {ToggleState} from '../Contexts/PropsContext';
 import quality from '../Utils/quality';
@@ -32,10 +31,6 @@ const Create: React.FC<{
   useEffect(() => {
     // using == instead of === for web compatibility: strings vs. numbers in the enum
     async function init() {
-      if (Platform.OS === 'android') {
-        //Request required permissions from Android
-        await requestCameraAndAudioPermission();
-      }
       try {
         console.log('hello');
         engine.current = createAgoraRtcEngine();
@@ -48,11 +43,11 @@ const Create: React.FC<{
             areaCode: AreaCode.AreaCodeGlob ^ AreaCode.AreaCodeCn,
           });
           // eslint-disable-next-line quotes, prettier/prettier
-          engine.current.setParameters("{\"rtc.using_ui_kit\": 1}");
+          engine.current.setParameters('{"rtc.using_ui_kit": 1}');
         } else {
           engine.current.initialize({appId: rtcProps.appId});
           // eslint-disable-next-line quotes, prettier/prettier
-          engine.current.setParameters("{\"rtc.using_ui_kit\": 1}");
+          engine.current.setParameters('{"rtc.using_ui_kit": 1}');
         }
         /* Live Streaming */
         if (
